@@ -65,3 +65,14 @@ func PatchSecret(client kubeclient.Interface, namespace, name string, pt types.P
 	}
 	return nil
 }
+
+func IfSecretExists(clusterClient kubeclient.Interface, targetNamespace, targetName string) (bool, error) {
+	_, err := clusterClient.CoreV1().Secrets(targetNamespace).Get(context.TODO(), targetName, metav1.GetOptions{})
+	if err != nil {
+		if apierrors.IsNotFound(err) {
+			return false, nil
+		}
+		return false, err
+	}
+	return true, nil
+}

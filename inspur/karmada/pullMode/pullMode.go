@@ -54,6 +54,11 @@ func (o *CommandTokenOptions) runCreateToken(kubeconfig string, client kubeclien
 	}
 }
 
+// GenerateRegisterCommand generate register command that will be printed
+func GenerateRegisterCommand() {
+
+}
+
 func NewCmdTokenCreate(kubeconfig string, tokenOpts *CommandTokenOptions) (string, error) {
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	if err != nil {
@@ -75,6 +80,7 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/multicluster/cluster.karmada.io/v1alpha1/clusters/pull", HomeHandler).Methods("GET")
+	fmt.Println("http server starting at 3000 ...")
 	http.ListenAndServe(":3000", r)
 }
 
@@ -93,7 +99,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 			parentCommand:        "kubectl karmada", // 或karmadactl
 		}
 		//kubeconfig := "D:\\Go\\Go_WorkSpace\\src\\inspur.com\\linux\\5174\\karmada-apiserver.config" //用不了
-		kubeconfig := "D:\\Go\\Go_WorkSpace\\src\\inspur.com\\linux\\36.133.136.66\\karmada-apiserver.config"
+		kubeconfig := "D:\\Go\\Go_WorkSpace\\src\\inspur.com\\linux\\4970\\karmada-apiserver.config"
 		command, err := NewCmdTokenCreate(kubeconfig, opts)
 		if err != nil {
 			fmt.Println(err.Error())
